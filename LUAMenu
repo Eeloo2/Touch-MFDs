@@ -23,8 +23,8 @@ function onTick()
         then
             output.setBool(14+i, isPressingRectangle[i])
             output.setBool(14+i, 0)
-			output.setBool(18+i, isPressingRectangle[i])
-			output.setNumber(18+i, 1)
+	    output.setBool(18+i, isPressingRectangle[i])
+	    output.setBool(18+i, 0)
         end
     end
 end
