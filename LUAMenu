@@ -1,0 +1,64 @@
+i = 0
+inputX = 0
+inputY = 0
+isPressed = false
+
+--64x64 Screen
+function onTick()
+    --Define IsPressingRectangle table -> used in the for loop afterwards
+    isPressingRectangle = {}
+
+    -- Read the touchscreen data from the script's composite input
+    inputX = input.getNumber(3)
+    inputY = input.getNumber(4)
+    isPressed = input.getBool(1)
+    
+    for i = 1, 4, 1
+    do
+        --Check if user is pressing the tabs
+        isPressingRectangle[i] = isPressed and isPointInRectangle(inputX, inputY, 5+3, 12*i+1, 54, 8)
+        
+        --Actions if tabs are being pressed
+        if isPressingRectangle[i]
+        then
+            output.setBool(14+i, isPressingRectangle[i])
+            output.setBool(14+i, 0)
+			output.setBool(18+i, isPressingRectangle[i])
+			output.setNumber(18+i, 1)
+        end
+    end
+end
+
+-- Returns true if the point (x, y) is inside the rectangle at (rectX, rectY) with width rectW and height rectH
+function isPointInRectangle(x, y, rectX, rectY, rectW, rectH)
+    return x > rectX and y > rectY and x < rectX+rectW and y < rectY+rectH
+end
+
+-- Draw function that will be executed when this script renders to a screen
+function onDraw()
+    --Define the tab titles
+    Titles = {}
+    Titles[1] = "ENGINE"
+    Titles[2] = "MAP"
+    Titles[3] = "FCS"
+    Titles[4] = "ARMAMENT"
+    
+    screen.setColor(0, 255, 0)
+    
+     --Draw the border
+    screen.drawRect(1, 1, 62, 62)
+    
+    --Draw menu on the top left corner
+    screen.drawText(3, 3, "MENU")
+    
+    --Draw each tab + titles in them
+    for i = 1, 4, 1
+    do
+        screen.drawRect(5, 12*i, 54, 8)
+        screen.drawTextBox(5+3, 12*i+1, 54, 8, Titles[i], -1, 0)
+		if (TF==true)
+		then
+			screen.drawClear()
+		end
+    end
+end
