@@ -1,0 +1,68 @@
+i = 0
+inputX = 0
+inputY = 0
+isPressed = false
+Test = false
+Test2 = false
+
+--Ecran 64x64
+function onTick()
+    --Define IsPressingRectangle table -> used in the for loop afterwards
+
+    -- Read the touchscreen data from the script's composite input
+    inputX = input.getNumber(3)
+    inputY = input.getNumber(4)
+    isPressed = input.getBool(1)
+	Test2 = input.getBool(16)
+    
+    --Check if user is pressing the tabs
+    isPressingRectangle = isPressed and isPointInRectangle(inputX, inputY, 41, 1, 22, 8)
+    
+    --Actions if tabs are being pressed
+    if isPressingRectangle
+    then
+        output.setBool(15, isPressingRectangle)
+        output.setBool(15, 0)
+		    output.setBool(16, isPressingRectangle)
+        output.setBool(16, 0)
+		test = true
+    end
+end
+
+-- Returns true if the point (x, y) is inside the rectangle at (rectX, rectY) with width rectW and height rectH
+function isPointInRectangle(x, y, rectX, rectY, rectW, rectH)
+    return x > rectX and y > rectY and x < rectX+rectW and y < rectY+rectH
+end
+
+-- Draw function that will be executed when this script renders to a screen
+function onDraw()
+    --Define the tab titles
+    Titles = {}
+    Titles[1] = "ENGINE"
+    Titles[2] = "MENU"
+    
+    screen.setColor(0, 255, 0)
+    
+    --Draw the border
+    screen.drawRect(1, 1, 62, 62)
+    
+    --Draw engine on the top left corner
+    screen.drawText(3, 3, Titles[1])
+    
+    --Draw menu on the top right corner
+    screen.drawRect(41, 1, 22, 8)
+    screen.drawTextBox(43, 2, 21, 8, Titles[2], -1, 0)
+	
+	--if(Test==true)
+	--then
+		--screen.drawText(32, 32, "Meow")
+	--end
+	--if(Test2==true)
+	--then
+		--screen.drawText(32, 48, "MeowTwoT")
+	--end
+	--if(Test2==false)
+	--then
+		--screen.drawText(32, 48, "MeowTwoF")
+	--end
+end
